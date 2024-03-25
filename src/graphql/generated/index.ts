@@ -101,6 +101,7 @@ export type Query = {
   getPictureList?: Maybe<Array<Maybe<Picture>>>;
   getUser?: Maybe<User>;
   getUserList?: Maybe<Array<Maybe<User>>>;
+  getUsersPictureList?: Maybe<Array<Maybe<Picture>>>;
 };
 
 
@@ -111,6 +112,11 @@ export type QueryGetPictureArgs = {
 
 export type QueryGetUserArgs = {
   id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryGetUsersPictureListArgs = {
+  userId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type User = {
@@ -275,6 +281,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getPictureList?: Resolver<Maybe<Array<Maybe<ResolversTypes['Picture']>>>, ParentType, ContextType>;
   getUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryGetUserArgs>>;
   getUserList?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
+  getUsersPictureList?: Resolver<Maybe<Array<Maybe<ResolversTypes['Picture']>>>, ParentType, ContextType, Partial<QueryGetUsersPictureListArgs>>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {

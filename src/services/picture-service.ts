@@ -17,20 +17,29 @@ let pictureList: Picture[] = [
 ];
 
 export const createPicture = async (input: PictureCreateInput) => {
-  try{
+  try {
     const result = await prisma.picture.create({ data: input });
     return result;
-  }catch(err){
-    console.log(err)
+  } catch (err) {
+    console.log(err);
     throw new GraphQLError("Error posting");
   }
 };
 export const getPictureList = async () => {
-  try{
-    const result = await prisma.picture.findMany()
-  return result;
-  }catch(err){
-    console.log(err)
+  try {
+    const result = await prisma.picture.findMany();
+    return result;
+  } catch (err) {
+    console.log(err);
     throw new GraphQLError("Error getting posts");
+  }
+};
+export const getUsersPictureList = async (userId: string) => {
+  try {
+    const result = await prisma.picture.findMany({ where: { userId } });
+    return result;
+  } catch (err) {
+    console.log(err);
+    throw new GraphQLError("Error getting your pictures");
   }
 };

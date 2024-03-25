@@ -9,12 +9,18 @@ import {
   updateUser,
 } from "@/services/user-service";
 import { Picture, UserLogin } from "../generated";
-import { createPicture, getPictureList } from "@/services/picture-service";
+import {
+  createPicture,
+  getPictureList,
+  getUsersPictureList,
+} from "@/services/picture-service";
 
 export const resolvers = {
   Query: {
     getUserList: () => getUserList(),
     getPictureList: () => getPictureList(),
+    getUsersPictureList: (_: unknown, { userId }: { userId: string }) =>
+      getUsersPictureList(userId),
     getUser: (_: unknown, { id }: { id: string }) => getUserById(id),
   },
   Mutation: {
