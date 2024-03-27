@@ -2,11 +2,11 @@ import gql from "graphql-tag";
 
 export const picturesTypeDefs = gql`
   type ColorTypeQuery {
-    r: Float
-    g: Float
-    b: Float
-    hex: String
-    hsv: [Float]
+    r: Float!
+    g: Float!
+    b: Float!
+    hex: String!
+    hsv: [Float]!
   }
   type Picture {
     id: ID!
@@ -18,11 +18,11 @@ export const picturesTypeDefs = gql`
     username: String!
   }
   input ColorType {
-    r: Float
-    g: Float
-    b: Float
-    hex: String
-    hsv: [Float]
+    r: Float!
+    g: Float!
+    b: Float!
+    hex: String!
+    hsv: [Float]!
   }
   input PictureCreateInput {
     title: String!
@@ -46,6 +46,7 @@ export const picturesTypeDefs = gql`
     getPictureList: [Picture]
     getPicture(id: ID): Picture
     getUsersPictureList(userId: ID): [Picture]
+    getSearchPictures(search: String, color: String): [Picture]
   }
   type Mutation {
     createPicture(input: PictureCreateInput!): Picture

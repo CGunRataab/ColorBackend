@@ -12,6 +12,7 @@ import { Picture, UserLogin } from "../generated";
 import {
   createPicture,
   getPictureList,
+  getSearchPictures,
   getUsersPictureList,
 } from "@/services/picture-service";
 
@@ -22,6 +23,10 @@ export const resolvers = {
     getUsersPictureList: (_: unknown, { userId }: { userId: string }) =>
       getUsersPictureList(userId),
     getUser: (_: unknown, { id }: { id: string }) => getUserById(id),
+    getSearchPictures: (
+      _: unknown,
+      { search, color }: { search: string; color: string }
+    ) => getSearchPictures(search, color),
   },
   Mutation: {
     loginUser: (_: unknown, { input }: { input: UserLogin }) =>
