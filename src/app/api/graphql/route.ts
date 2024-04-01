@@ -3,6 +3,7 @@ import { ApolloServer } from "@apollo/server";
 import { gql } from "graphql-tag";
 import { typeDefs } from "@/graphql/schemas/index";
 import { resolvers } from "@/graphql/resolvers";
+import { ApolloLink } from "@apollo/client";
 
 declare global {
   namespace PrismaJson {
@@ -15,7 +16,6 @@ declare global {
     };
   }
 }
-
 const server = new ApolloServer({
   resolvers,
   typeDefs,
