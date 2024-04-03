@@ -41,9 +41,12 @@ export const getPictureList = async () => {
     throw new GraphQLError("Error getting posts");
   }
 };
-export const getUsersPictureList = async (userId: string) => {
+export const getUsersPictureList = async (token: any) => {
   try {
-    const result = await prisma.picture.findMany({ where: { userId } });
+    if (token === undefined) return;
+    const result = await prisma.picture.findMany({
+      where: { userId: token.id },
+    });
     return result;
   } catch (err) {
     console.log(err);
@@ -65,6 +68,7 @@ export const getSearchPictures = async (search: string, color: string) => {
     const filtered = filterRes.filter((e) => {
       // if(e.color?.hex){}
       let holder = "";
+      //@ts-ignore
       const hexs = e.color?.hex;
       let temp = 0;
       holder += hexs[1] + hexs[3] + hexs[5];

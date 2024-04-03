@@ -2,8 +2,10 @@ import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import { ApolloServer } from "@apollo/server";
 import { gql } from "graphql-tag";
 import { typeDefs } from "@/graphql/schemas/index";
-import { resolvers } from "@/graphql/resolvers";
+import { resolverMiddleware, resolvers } from "@/graphql/resolvers";
 import { ApolloLink } from "@apollo/client";
+import { applyMiddleware } from "graphql-middleware";
+import { makeExecutableSchema } from "@graphql-tools/schema";
 
 declare global {
   namespace PrismaJson {
@@ -16,8 +18,10 @@ declare global {
     };
   }
 }
+const schema = makeExecutableSchema({ typeDefs, resolvers });
+const withMiddleware = applyMiddleware(schema, resolverMiddleware);
 const server = new ApolloServer({
-  resolvers,
+  schema: withMiddleware,
   typeDefs,
   introspection: true,
 });

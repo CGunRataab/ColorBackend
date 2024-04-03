@@ -1,4 +1,5 @@
 import {
+  JWT_SECRET,
   User,
   UserCreateInput,
   createUser,
@@ -15,22 +16,41 @@ import {
   getSearchPictures,
   getUsersPictureList,
 } from "@/services/picture-service";
+import jwt from "jsonwebtoken";
+
+export const resolverMiddleware = {
+  Query: {
+    //@ts-ignore
+    getUser: async (resolve, parent, args, context, info) => {
+      //@ts-ignore
+      const decoded = jwt.verify(args.token, JWT_SECRET);
+      const result = await resolve(parent, decoded, context, info);
+      return result;
+    },
+    //@ts-ignore
+    getUsersPictureList: async (resolve, parent, args, context, info) => {
+      //@ts-ignore
+      const decoded = jwt.verify(args.token, JWT_SECRET);
+      const result = await resolve(parent, decoded, context, info);
+      return result;
+    },
+  },
+};
 
 export const resolvers = {
   Query: {
     getUserList: () => getUserList(),
     getPictureList: () => getPictureList(),
-    getUsersPictureList: (_: unknown, { userId }: { userId: string }) =>
-      getUsersPictureList(userId),
-    getUser: (_: unknown, { id }: { id: string }) => getUserById(id),
+    getUsersPictureList: (_: unknown, token: any) => getUsersPictureList(token),
+    getUser: (_: unknown, token: any) => getUserById(token),
     getSearchPictures: (
       _: unknown,
       { search, color }: { search: string; color: string }
     ) => getSearchPictures(search, color),
-  },
-  Mutation: {
     loginUser: (_: unknown, { input }: { input: UserLogin }) =>
       loginUser(input),
+  },
+  Mutation: {
     createUser: (_: unknown, { input }: { input: UserCreateInput }) =>
       createUser(input),
     deleteUser: (_: unknown, { input }: { input: { id: string } }) =>

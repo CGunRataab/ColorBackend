@@ -45,7 +45,7 @@ export const picturesTypeDefs = gql`
   type Query {
     getPictureList: [Picture]
     getPicture(id: ID): Picture
-    getUsersPictureList(userId: ID): [Picture]
+    getUsersPictureList(token: String!): [Picture]
     getSearchPictures(search: String, color: String): [Picture]
   }
   type Mutation {

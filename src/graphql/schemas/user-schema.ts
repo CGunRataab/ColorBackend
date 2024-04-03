@@ -7,6 +7,9 @@ export const userTypeDefs = gql`
     password: String!
     email: String!
   }
+  type UserToken {
+    token: String!
+  }
   input UserUpdate {
     id: ID!
     name: String!
@@ -26,16 +29,17 @@ export const userTypeDefs = gql`
     id: ID
     email: String!
     password: String!
+    token: String
   }
 
   type Query {
     getUserList: [User]
-    getUser(id: ID): User
+    getUser(token: String!): User
+    loginUser(input: UserLogin!): UserToken
   }
   type Mutation {
     createUser(input: UserCreateInput!): User
     deleteUser(input: UserDelete!): User
     updateUser(input: UserUpdate!): User
-    loginUser(input: UserLogin!): User
   }
 `;

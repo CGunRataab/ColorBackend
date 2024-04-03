@@ -2,6 +2,7 @@ import { nanoid } from "nanoid";
 import bcrypt from "bcrypt";
 import { GraphQLError } from "graphql";
 import { prisma } from "@/utils/prisma";
+import jwt from "jsonwebtoken";
 
 export type User = {
   id: string;
@@ -29,6 +30,8 @@ type Login = {
   password: string;
 };
 
+export const JWT_SECRET = process.env.NEXT_PUBLIC_JWT_SECRET;
+
 export const getUserList = async () => {
   try {
     const result = await prisma.user.findMany();
@@ -41,14 +44,13 @@ export const getUserList = async () => {
 export const loginUser = async (input: Login) => {
   try {
     const { email, password } = input;
-    const result = await prisma.user.findUnique({ where: { email } });
-    if (!result) throw new GraphQLError("email or password was incorrect");
-    const match = await bcrypt.compare(password, result.password);
-    if (match) {
-      return result;
-    } else {
-      throw new GraphQLError("email or password was incorrect");
-    }
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (!user) throw new GraphQLError("email or password was incorrect");
+    const check = await bcrypt.compare(password, user.password);
+    if (!check) throw new GraphQLError("email or password was incorrect");
+    //@ts-ignore
+    const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET);
+    return { token };
   } catch (err) {
     console.log(err);
     throw new GraphQLError("Error logging in");
@@ -71,12 +73,12 @@ export const createUser = async (input: UserCreateInput) => {
   }
 };
 
-export const getUserById = async (id: string) => {
+export const getUserById = async (token: any) => {
   try {
-    if (id === null) {
+    if (token === null) {
       return;
     }
-    const result = await prisma.user.findUnique({ where: { id } });
+    const result = await prisma.user.findUnique({ where: { id: token.id } });
     return result;
   } catch (err) {
     console.log(err);
