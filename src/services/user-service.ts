@@ -98,13 +98,44 @@ export const deleteUser = async (input: { id: string }) => {
 export const updateUser = async (input: User) => {
   try {
     const { id, name, email, password } = input;
+    let changingEmail = email;
+    let changingPassword = password;
+    let changingName = name;
+    const previous = await prisma.user.findUnique({ where: { id } });
+    if (email == "") {
+      changingEmail = previous?.email;
+    }
+    if (password == "") {
+      changingPassword = previous?.password;
+    } else {
+      changingPassword = await bcrypt.hash(changingPassword, 10);
+    }
+    if (name == "") {
+      changingName = previous?.name;
+    }
     const result = await prisma.user.update({
       where: { id },
-      data: { name, email, password },
+      data: {
+        name: changingName,
+        email: changingEmail,
+        password: changingPassword,
+      },
     });
     return result;
   } catch (err) {
     console.log(err);
     throw new GraphQLError("Error updating a user");
+  }
+};
+export const checkUser = async (input: User) => {
+  try {
+    const { email, password } = input;
+    const result = await prisma.user.findUnique({ where: { email } });
+    if (!result) throw new GraphQLError("User does not exist???");
+    const check = await bcrypt.compare(password, result.password);
+    if (!check) throw new GraphQLError("Password was incorrect");
+    return check;
+  } catch (err) {
+    throw new GraphQLError("Error getting user");
   }
 };

@@ -31,11 +31,15 @@ export const userTypeDefs = gql`
     password: String!
     token: String
   }
-
+  input ChangePassword {
+    email: String!
+    password: String!
+  }
   type Query {
     getUserList: [User]
     getUser(token: String!): User
     loginUser(input: UserLogin!): UserToken
+    changePassword(input: ChangePassword!): Boolean!
   }
   type Mutation {
     createUser(input: UserCreateInput!): User

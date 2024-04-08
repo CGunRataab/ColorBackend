@@ -77,6 +77,8 @@ export const getSearchPictures = async (search: string, color: string) => {
           if (hexCheck[k] === holder[i]) {
             if (
               colorCheck[i] === hexCheck[k] ||
+              colorCheck[i] === hexCheck[k + 2] ||
+              colorCheck[i] === hexCheck[k - 2] ||
               colorCheck[i] === hexCheck[k + 1] ||
               colorCheck[i] === hexCheck[k - 1]
             ) {

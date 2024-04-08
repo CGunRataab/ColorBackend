@@ -2,6 +2,7 @@ import {
   JWT_SECRET,
   User,
   UserCreateInput,
+  checkUser,
   createUser,
   deleteUser,
   getUserById,
@@ -49,6 +50,8 @@ export const resolvers = {
     ) => getSearchPictures(search, color),
     loginUser: (_: unknown, { input }: { input: UserLogin }) =>
       loginUser(input),
+    changePassword: (_: unknown, { input }: { input: User }) =>
+      checkUser(input),
   },
   Mutation: {
     createUser: (_: unknown, { input }: { input: UserCreateInput }) =>
