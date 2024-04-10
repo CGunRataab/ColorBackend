@@ -98,12 +98,11 @@ export const deleteUser = async (input: { id: string }) => {
 export const updateUser = async (input: User) => {
   try {
     const { id, name, email, password } = input;
-    let changingEmail = email;
-    let changingPassword = password;
-    let changingName = name;
+    let changingEmail: string | undefined = email;
+    let changingPassword: string | undefined = password;
+    let changingName: string | undefined = name;
     const previous = await prisma.user.findUnique({ where: { id } });
     if (email == "") {
-      //@ts-ignore
       changingEmail = previous?.email;
     }
     if (password == "") {
