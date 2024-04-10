@@ -41,6 +41,14 @@ export const getPictureList = async () => {
     throw new GraphQLError("Error getting posts");
   }
 };
+export const getPicture = async (id: any) => {
+  try {
+    const result = await prisma.picture.findUnique({ where: { id: id.id } });
+    return result;
+  } catch (err) {
+    throw new GraphQLError("Error getting posts");
+  }
+};
 export const getUsersPictureList = async (token: any) => {
   try {
     if (token === undefined) return;

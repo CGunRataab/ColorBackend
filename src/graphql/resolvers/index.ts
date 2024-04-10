@@ -13,6 +13,7 @@ import {
 import { Picture, UserLogin } from "../generated";
 import {
   createPicture,
+  getPicture,
   getPictureList,
   getSearchPictures,
   getUsersPictureList,
@@ -42,6 +43,7 @@ export const resolvers = {
   Query: {
     getUserList: () => getUserList(),
     getPictureList: () => getPictureList(),
+    getPicture: (_: unknown, id: string) => getPicture(id),
     getUsersPictureList: (_: unknown, token: any) => getUsersPictureList(token),
     getUser: (_: unknown, token: any) => getUserById(token),
     getSearchPictures: (
