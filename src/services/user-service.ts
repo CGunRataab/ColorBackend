@@ -106,13 +106,11 @@ export const updateUser = async (input: User) => {
       changingEmail = previous?.email;
     }
     if (password == "") {
-      //@ts-ignore
       changingPassword = previous?.password;
     } else {
       changingPassword = await bcrypt.hash(changingPassword, 10);
     }
     if (name == "") {
-      //@ts-ignore
       changingName = previous?.name;
     }
     const result = await prisma.user.update({
