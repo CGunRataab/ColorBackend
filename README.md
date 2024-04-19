@@ -12,6 +12,40 @@ yarn dev
 pnpm dev
 # or
 bun dev
+
+npm install @apollo/client
+
+npm install @apollo/server
+
+npm install @as-integrations/next
+
+npm install @graphql-codegen/cli
+
+npm install @graphql-codegen/typescript-react-apollo
+
+npm install @graphql-codegen/typescript-resolvers
+
+npm install @graphql-tools/schema
+
+npm install @prisma/client
+
+npm install @types/bcrypt
+
+npm install @types/jsonwebtoken
+
+npm install bcrypt
+
+npm install graphql
+
+npm install graphql-middleware
+
+npm install graphql-tag
+
+npm install graphql-tools-merge-typedefs
+
+npm install jsonwebtoken
+
+npm install nanoid
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
